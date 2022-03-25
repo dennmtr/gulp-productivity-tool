@@ -1,6 +1,3 @@
 {
-  "reject": [
-    "bootstrap3",
-    "bootstrap4"
-  ]
+  "reject": ["bootstrap3", "bootstrap4", "font-awesome5"]
 }

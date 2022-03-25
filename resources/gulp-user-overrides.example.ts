@@ -11,6 +11,7 @@ const override: UserOverride = (
     devIcons,
     fontAwesomeV4,
     fontAwesomeV5,
+    fontAwesomeV6,
     ionIcons,
     jQuery,
     materialDesignIcons,

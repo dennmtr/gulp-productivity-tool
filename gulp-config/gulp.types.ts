@@ -4,6 +4,7 @@ import cache from 'gulp-cache'
 import filter from 'gulp-filter'
 import gulpIf from 'gulp-if'
 import jsonminify from 'gulp-jsonminify'
+import uglify from 'gulp-uglify'
 import rename from 'gulp-rename'
 import rev from 'gulp-rev'
 import strip from 'gulp-strip-comments'
@@ -100,6 +101,7 @@ export type UserOverride = (
     - devIcons
     - fontAwesomeV4
     - fontAwesomeV5
+    - fontAwesomeV6
     - ionIcons
     - jQuery
     - materialDesignIcons
@@ -126,8 +128,9 @@ export type UserOverride = (
     - [codicon usage](https://github.com/microsoft/vscode-codicons#using-css-classes)
     - [codicon list](https://microsoft.github.io/vscode-codicons/dist/codicon.html)
     - [devicon list](https://devicon.dev/)
-    - [fontawesome v4.7 list](https://fontawesome.com/v4.7/icons/)
-    - [fontawesome v5.1 list](https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free)
+    - [fontawesome v4 list](https://fontawesome.com/v4.7/icons/)
+    - [fontawesome v5 list](https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free)
+    - [fontawesome v6 list](https://fontawesome.com/search?m=free)
     - [ionicon usage](https://ionic.io/ionicons/v4/usage)
     - [ionicon list](https://ionic.io/ionicons/v4)
     - [material design icon list](https://fonts.google.com/icons)
@@ -219,6 +222,7 @@ export interface IGulpPlugins {
   filter: typeof filter
   if: typeof gulpIf
   jsonminify: typeof jsonminify
+  uglify: typeof uglify
   rev: typeof rev
   lineEndingCorrector: UnknownGulpPlugin
   removeSourcemaps: UnknownGulpPlugin
@@ -227,9 +231,6 @@ export interface IGulpPlugins {
   babel: typeof babel
   removeEmptyLines: UnknownGulpPlugin
   concat: typeof concat
-  uglifyEs: {
-    default: UnknownGulpPlugin
-  }
   sourcemaps: typeof sourcemaps
   sass: typeof sass
   postcss: typeof GulpPostCss

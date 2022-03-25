@@ -2,6 +2,7 @@ import ionicons from './profiles/gulp.profile.ionicons'
 import bootstrapIcons from './profiles/gulp.profile.bootstrap-icons'
 import fontAwesomeV4 from './profiles/gulp.profile.fontawesome-4'
 import fontAwesomeV5 from './profiles/gulp.profile.fontawesome-5'
+import fontAwesomeV6 from './profiles/gulp.profile.fontawesome-6'
 import materialIcons from './profiles/gulp.profile.material-icons'
 import jQuery from './profiles/gulp.profile.jquery'
 import bootstrapV3_jQuery from './profiles/gulp.profile.bootstrap-3'
@@ -25,6 +26,7 @@ export default function (paths: IPath): Template {
     bootstrapIcons: bootstrapIcons(paths),
     fontAwesomeV4: fontAwesomeV4(paths),
     fontAwesomeV5: fontAwesomeV5(paths),
+    fontAwesomeV6: fontAwesomeV6(paths),
     materialIcons: materialIcons(paths),
     jQuery: jQuery(paths),
     bootstrapV3_jQuery: bootstrapV3_jQuery(paths),

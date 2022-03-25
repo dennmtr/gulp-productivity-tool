@@ -21,6 +21,8 @@ const $: IGulpPlugins = require('gulp-load-plugins')({
   },
 })
 
+console.log($)
+
 export const clearCache = (cb?: any) => {
   return $.cache.clearAll(cb)
 }
@@ -193,16 +195,7 @@ export const bundleLibs = (
     )
     .pipe($.if(config.production, $.removeEmptyLines()))
     .pipe($.concat({ path: 'vendor.js' }))
-    .pipe(
-      $.if(
-        config.production,
-        $.uglifyEs.default({
-          output: {
-            ascii_only: true,
-          },
-        }),
-      ),
-    )
+    .pipe($.if(config.production, $.uglify()))
     .pipe($.if(!!config.assetRevisioning, $.rev()))
     .pipe(
       $.if(
@@ -256,16 +249,7 @@ export const bundleAppScripts = (
     .pipe($.if(config.production, $.stripComments()))
     .pipe($.if(config.production, $.stripDebug()))
     //.pipe($.if(production, $.removeEmptyLines()))
-    .pipe(
-      $.if(
-        config.production,
-        $.uglifyEs.default({
-          output: {
-            ascii_only: true,
-          },
-        }),
-      ),
-    )
+    .pipe($.if(config.production, $.uglify()))
     .pipe($.if(!!config.assetRevisioning, $.rev()))
     .pipe(
       $.sourcemaps.write('.', {
