@@ -1,0 +1,6 @@
+{
+  "reject": [
+    "bootstrap3",
+    "bootstrap4"
+  ]
+}

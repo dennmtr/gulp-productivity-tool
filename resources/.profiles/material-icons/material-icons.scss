@@ -1,0 +1,11 @@
+$material-icons-font-path: './' !default;
+$material-icons-font-size: 24px !default;
+$material-icons-font-display: block !default;
+
+@import 'material-icons/iconfont/filled.scss';
+@import 'material-icons/iconfont/outlined.scss';
+@import 'material-icons/iconfont/round.scss';
+@import 'material-icons/iconfont/sharp.scss';
+@import 'material-icons/iconfont/two-tone.scss';
+
+// <span class="material-icons">pie_chart</span>

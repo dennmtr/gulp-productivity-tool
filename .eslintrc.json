@@ -1,0 +1,54 @@
+{
+  "extends": [
+    // "plugin:jquery/deprecated",
+    "plugin:@typescript-eslint/eslint-recommended"
+  ],
+  "plugins": [
+    // "jquery",
+    "@typescript-eslint"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "arrowFunctions": true
+    }
+  },
+  "settings": {
+    "import/extensions": [
+      ".js",
+      ".ts"
+    ],
+    "import/parsers": {
+      "@typescript-eslint/parser": [
+        ".ts"
+      ]
+    },
+    "import/resolver": {
+      "node": {
+        "paths": [
+          "resources/src"
+        ],
+        "extensions": [
+          ".js",
+          ".ts"
+        ]
+      }
+    }
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "rules": {
+    "no-mixed-operators": "error",
+    "max-len": "off",
+    "no-tabs": "error",
+    "no-use-before-define": "warn",
+    "no-mixed-spaces-and-tabs": "error",
+    "@typescript-eslint/no-use-before-define": "warn",
+    "@typescript-eslint/no-empty-function": "warn"
+    // "jquery/no-deferred": "off"
+  }
+}

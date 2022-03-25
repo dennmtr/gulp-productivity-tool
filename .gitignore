@@ -1,0 +1,17 @@
+*.ignore
+rev-manifest.json
+.env-cmdrc
+resources/gulp-user-overrides.ts
+resources/views/*
+!resources/views/.gitkeep
+resources/.profiles/bootstrap-3/_bootstrap3.scss
+resources/.profiles/bootstrap-4/_bootstrap4.scss
+resources/.profiles/bootstrap-5/_bootstrap5.scss
+resources/.profiles/materialize/_materialize_colors.scss
+resources/.profiles/materialize/_materialize_variables.scss
+resources/.profiles/mdb3/_mdb3.scss
+resources/.profiles/mdbootstrap/_mdbootstrap_colors.scss
+resources/.profiles/mdbootstrap/_mdbootstrap_variables.scss
+/public/
+node_modules/
+.idea/

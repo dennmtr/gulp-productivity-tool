@@ -1,0 +1,7 @@
+$bootstrap-icons-font: "bootstrap-icons" !default;
+$bootstrap-icons-font-src: url("./bootstrap-icons.woff2?30af91bf14e37666a085fb8a161ff36d") format("woff2"),
+url("./bootstrap-icons.woff?30af91bf14e37666a085fb8a161ff36d") format("woff") !default;
+
+@import "bootstrap-icons/font/bootstrap-icons.scss";
+
+//    <i class="bi bi-arrow-up-right"></i>
