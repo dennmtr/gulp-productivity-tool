@@ -4,6 +4,7 @@ rev-manifest.json
 resources/gulp-user-overrides.ts
 resources/views/*
 !resources/views/.gitkeep
+!resources/views/index.example.php
 resources/.profiles/bootstrap-3/_bootstrap3.scss
 resources/.profiles/bootstrap-4/_bootstrap4.scss
 resources/.profiles/bootstrap-5/_bootstrap5.scss
@@ -13,5 +14,8 @@ resources/.profiles/mdb3/_mdb3.scss
 resources/.profiles/mdbootstrap/_mdbootstrap_colors.scss
 resources/.profiles/mdbootstrap/_mdbootstrap_variables.scss
 /public/
+resources/public/*
+!resources/public/.gitkeep
 node_modules/
 .idea/
+package-lock.json

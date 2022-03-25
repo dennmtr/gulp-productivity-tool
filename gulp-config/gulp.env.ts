@@ -158,7 +158,7 @@ const config: IConfig = {
   server: {
     ...server,
   },
-  assetRevisioning: userOverride?.assetRevisioning ?? true,
+  assetRevisioning: userOverride?.assetRevisioning ?? false,
   assetRevisioningFilter: assetRevisioningFilter.length
     ? assetRevisioningFilter.join('|')
     : undefined,

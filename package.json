@@ -114,6 +114,7 @@
     "postcss-purgecss": "^2.0.3",
     "postcss-single-charset": "^2.0.0",
     "prettier": "2.5.1",
+    "tailwindcss": "^3.0.23",
     "ts-node": "^10.4.0",
     "tsify": "^5.0.4",
     "typescript": "^4.5.4",
@@ -122,10 +123,10 @@
     "vinyl-source-stream": "^2.0.0"
   },
   "scripts": {
-    "gulp:build": "env-cmd -e production cross-env NODE_ENV=production npm run gulp build",
-    "gulp:nodemon": "env-cmd -e development nodemon -q -P 1000 --no-update-notifier --signal SIGQUIT --watch gulpfile.ts --watch gulp-config -e ts --watch resources/gulp-user-overrides.ts --watch .env-cmdrc --exec cross-env NODEMON=${NODEMON} gulp nodemon",
-    "gulp:start": "env-cmd -e development npm run gulp",
-    "gulp:watch": "env-cmd -e development npm run gulp watch",
+    "gulp:build": "env-cmd --silent -e production cross-env NODE_ENV=production npm run gulp build",
+    "gulp:nodemon": "env-cmd --silent -e development nodemon -q -P 1000 --no-update-notifier --signal SIGQUIT --watch gulpfile.ts --watch gulp-config -e ts --watch resources/gulp-user-overrides.ts --watch .env-cmdrc --exec cross-env NODEMON=${NODEMON} gulp nodemon",
+    "gulp:start": "env-cmd --silent -e development npm run gulp",
+    "gulp:watch": "env-cmd --silent -e development npm run gulp watch",
     "gulp": "gulp --gulpfile gulpfile.ts"
   },
   "browserslist": [

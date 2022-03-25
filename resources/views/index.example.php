@@ -1,5 +1,7 @@
+<!--since there is no php framework implementation, remove this comment and move file to resources/public/index.php-->
 <!doctype html>
 <html lang="el">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,6 +17,7 @@
   <link rel="stylesheet" href="assets/<?= rev('app.css') ?>"><?php
   } ?>
 </head>
+
 <body>
   <?php
 if (file_exists(realpath(".") . '/assets/' . rev('vendor.js'))) {

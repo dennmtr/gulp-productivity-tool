@@ -56,7 +56,7 @@ export const cleanCache = (
     const jsonString = fs.readFileSync(manifestFile, 'utf8')
     manifestJson = JSON.parse(jsonString)
   } catch {
-    return
+    return Promise.resolve()
   }
   const orphanFiles = Object.entries(manifestJson)
     .map(([key, val]) =>
