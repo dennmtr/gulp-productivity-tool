@@ -58,4 +58,10 @@ const override: UserOverride = (paths, { bootstrapV5, fontAwesomeV5 }) => ({
 })
 ```
 
-> exports a single, minified script & stylesheet file
+#### Override theme
+
+```console
+cp resources/.profiles/bootstrap-5/_bootstrap5.example.scss resources/.profiles/bootstrap-5/_bootstrap5.scss
+```
+
+> https://bootstrap.build/app
