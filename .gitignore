@@ -3,7 +3,6 @@ rev-manifest.json
 .env-cmdrc
 /resources/gulp-user-overrides.ts
 /resources/views/*
-!resources/views/.gitkeep
 /resources/assets/*
 !resources/assets/.gitkeep
 !resources/views/index.example.php

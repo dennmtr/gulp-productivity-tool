@@ -32,7 +32,7 @@ npm install --no-optional
 - import external assets
 - file watch
 
-### Example using Bootstrap
+### Example using a Bootstrap project from scratch
 
 #### Override gulp configuration and paths
 
@@ -43,8 +43,11 @@ cp resources/gulp-user-overrides.example.ts resources/gulp-user-overrides.ts
 > resources/gulp-user-overrides.ts
 
 ```typescript script
-const override: UserOverride = (paths, { bootstrapV5, fontAwesomeV6 }) => ({
-  templates: [bootstrapV5 /*fontAwesomeV6*/],
+const override: UserOverride = (
+  paths,
+  { bootstrapV5 /*, fontAwesomeV6*/ },
+) => ({
+  templates: [bootstrapV5 /*, fontAwesomeV6*/],
   vendor: {
     scripts: [
       //paths.libs + 'quill.js',
@@ -62,10 +65,10 @@ const override: UserOverride = (paths, { bootstrapV5, fontAwesomeV6 }) => ({
 })
 ```
 
-#### Remove bootstrap from _optionalDependencies_ inside **package.json** and run
+#### Move bootstrap from _optionalDependencies_ to _dependencies_ inside **package.json** and run
 
 ```console
-npm install bootstrap --no-optional
+npm install --no-optional
 ```
 
 #### Override global theme and customize
@@ -74,7 +77,7 @@ npm install bootstrap --no-optional
 cp resources/.profiles/bootstrap-5/_bootstrap5.example.scss resources/.profiles/bootstrap-5/_bootstrap5.scss
 ```
 
-> https://bootstrap.build/app
+> [Free Bootstrap Builder](https://bootstrap.build/app/ 'Free Bootstrap Builder')
 
 #### Import bootstrap variables to your application
 
@@ -98,7 +101,7 @@ cp resources/src/scss/app.example.scss resources/src/scss/app.scss
 cp resources/src/app.example.js resources/src/app.js
 ```
 
-#### Configure your server
+#### Server configuration
 
 ```console
 cp .env-cmdrc.example .env-cmdrc
