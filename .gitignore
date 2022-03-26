@@ -4,6 +4,8 @@ rev-manifest.json
 /resources/gulp-user-overrides.ts
 /resources/views/*
 !resources/views/.gitkeep
+/resources/assets/*
+!resources/assets/.gitkeep
 !resources/views/index.example.php
 /resources/.profiles/bootstrap-3/_bootstrap3.scss
 /resources/.profiles/bootstrap-4/_bootstrap4.scss
