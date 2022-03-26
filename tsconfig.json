@@ -4,9 +4,7 @@
     "target": "ESNext",
     "sourceMap": true,
     "strict": true,
-    "lib": [
-      "esnext"
-    ],
+    "lib": ["esnext"],
     "esModuleInterop": true,
     "noImplicitReturns": true,
     "noImplicitAny": true,
@@ -14,12 +12,10 @@
     "moduleResolution": "node",
     "noEmit": true
   },
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "ts-node": {
     "compilerOptions": {
-        "module": "commonjs"
+      "module": "commonjs"
     }
-}
+  }
 }

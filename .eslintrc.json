@@ -16,24 +16,14 @@
     }
   },
   "settings": {
-    "import/extensions": [
-      ".js",
-      ".ts"
-    ],
+    "import/extensions": [".js", ".ts"],
     "import/parsers": {
-      "@typescript-eslint/parser": [
-        ".ts"
-      ]
+      "@typescript-eslint/parser": [".ts"]
     },
     "import/resolver": {
       "node": {
-        "paths": [
-          "resources/src"
-        ],
-        "extensions": [
-          ".js",
-          ".ts"
-        ]
+        "paths": ["resources/src"],
+        "extensions": [".js", ".ts"]
       }
     }
   },
