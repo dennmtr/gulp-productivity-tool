@@ -104,6 +104,8 @@ cp resources/src/app.example.js resources/src/app.js
 cp .env-cmdrc.example .env-cmdrc
 ```
 
+_If you will use asset revisioning (recommended) import app/rev.php to your php script (example, views/index.example.php), or integrate it as a helper function to your framework (then you will need to modify the manifest path inside function). Import vendor.css, app.css, vendor.js, app.js to header and footer view partials wrapping them in rev function_
+
 #### Watch
 
 ```console
