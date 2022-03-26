@@ -1,3 +1,6 @@
+<?php
+  require "../app/rev.php"
+  ?>
 <!--since there is no php framework implementation, remove this comment and copy file to resources/public/index.php-->
 <!doctype html>
 <html lang="el">

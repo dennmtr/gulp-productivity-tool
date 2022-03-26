@@ -21,6 +21,8 @@ rev-manifest.json
 /dist/
 /resources/public/*
 !resources/public/.gitkeep
+/resources/src/**/*
+!resources/src/**/*.example.*
 node_modules/
 .idea/
 package-lock.json

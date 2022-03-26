@@ -21,8 +21,6 @@ const $: IGulpPlugins = require('gulp-load-plugins')({
   },
 })
 
-console.log($)
-
 export const clearCache = (cb?: any) => {
   return $.cache.clearAll(cb)
 }

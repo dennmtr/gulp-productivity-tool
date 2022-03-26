@@ -11,11 +11,9 @@
 
 ```console
 npm install --no-optional
-
-cp resources/gulp-user-overrides.example.ts resources/gulp-user-overrides.ts
 ```
 
-#### Common optional tasks per environment:
+#### Common (optional) tasks per environment:
 
 - asset revisioning
 - minification
@@ -34,20 +32,26 @@ cp resources/gulp-user-overrides.example.ts resources/gulp-user-overrides.ts
 - import external assets
 - file watch
 
-#### Example **_gulp-user-overrides.ts_**
+### Example using Bootstrap
+
+#### Override gulp configuration and paths
+
+```console
+cp resources/gulp-user-overrides.example.ts resources/gulp-user-overrides.ts
+```
 
 > resources/gulp-user-overrides.ts
 
 ```typescript script
-const override: UserOverride = (paths, { bootstrapV5, fontAwesomeV5 }) => ({
-  templates: [bootstrapV5, fontAwesomeV5],
+const override: UserOverride = (paths, { bootstrapV5, fontAwesomeV6 }) => ({
+  templates: [bootstrapV5 /*fontAwesomeV6*/],
   vendor: {
     scripts: [
-      paths.libs + 'quill.js',
+      //paths.libs + 'quill.js',
       //paths.node + 'quill/dist/quill.js'
     ],
     styles: [
-      paths.libs + 'quill.snow.css',
+      //paths.libs + 'quill.snow.css',
       //paths.node + 'quill/dist/quill.snow.css'
     ],
   },
@@ -58,10 +62,50 @@ const override: UserOverride = (paths, { bootstrapV5, fontAwesomeV5 }) => ({
 })
 ```
 
-#### Override theme
+#### Remove bootstrap from _optionalDependencies_ inside **package.json** and run
+
+```console
+npm install bootstrap --no-optional
+```
+
+#### Override global theme and customize
 
 ```console
 cp resources/.profiles/bootstrap-5/_bootstrap5.example.scss resources/.profiles/bootstrap-5/_bootstrap5.scss
 ```
 
 > https://bootstrap.build/app
+
+#### Import bootstrap variables to your application
+
+```console
+cp resources/src/scss/app.example.scss resources/src/scss/app.scss
+```
+
+> resources/src/scss/app.scss
+
+```scss
+@import 'bootstrap-5/config';
+
+.myselection {
+  color: $primary;
+}
+```
+
+#### Create a script file
+
+```console
+cp resources/src/app.example.js resources/src/app.js
+```
+
+#### Configure your server
+
+```console
+cp .env-cmdrc.example .env-cmdrc
+```
+
+#### Watch
+
+```console
+npm run gulp:start
+```
