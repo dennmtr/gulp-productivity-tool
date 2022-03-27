@@ -100,18 +100,21 @@ export const bundleAssets = (
 ) => {
   if (
     assetRevisioning &&
-    !!config.assetRevisioning &&
-    config.assetRevisioningFilter
+    (config.assetRevisioning ?? true) &&
+    config.assetRevisioningFilter?.length
   ) {
     const allWithoutFilter = $.filter(
-      `**/!(*.+(${config.assetRevisioningFilter}))`,
+      `**/!(*.+(${config.assetRevisioningFilter.join('|')}))`,
       {
         restore: true,
       },
     )
-    const onlyFilter = $.filter(`**/*.+(${config.assetRevisioningFilter})`, {
-      restore: false,
-    })
+    const onlyFilter = $.filter(
+      `**/*.+(${config.assetRevisioningFilter.join('|')})`,
+      {
+        restore: false,
+      },
+    )
     return gulp
       .src(sourcePath, {
         allowEmpty: true,
@@ -119,23 +122,23 @@ export const bundleAssets = (
         dot: true,
       })
       .pipe(allWithoutFilter)
-      .pipe($.if(config.production, $.jsonminify()))
+      .pipe($.if(config.production && (config.minify ?? true), $.jsonminify()))
       .pipe(gulp.dest(targetPath))
       .pipe(allWithoutFilter.restore)
       .pipe(onlyFilter)
       .pipe($.if(config.production, $.jsonminify()))
-      .pipe($.if(!!config.assetRevisioning, $.rev()))
+      .pipe($.if(config.assetRevisioning ?? true, $.rev()))
       .pipe(gulp.dest(targetPath))
       .pipe(
         $.if(
-          !!config.assetRevisioning,
+          config.assetRevisioning ?? true,
           $.rev.manifest({
             base: targetPath,
             merge: true,
           }),
         ),
       )
-      .pipe($.if(!!config.assetRevisioning, gulp.dest(targetPath)))
+      .pipe($.if(config.assetRevisioning ?? true, gulp.dest(targetPath)))
   }
   return gulp
     .src(sourcePath, {
@@ -143,12 +146,14 @@ export const bundleAssets = (
       base: basePath ?? undefined,
       dot: true,
     })
-    .pipe($.if(config.production, $.jsonminify()))
-    .pipe($.if(!!assetRevisioning && !!config.assetRevisioning, $.rev()))
+    .pipe($.if(config.production && (config.minify ?? true), $.jsonminify()))
+    .pipe(
+      $.if(!!assetRevisioning && (config.assetRevisioning ?? true), $.rev()),
+    )
     .pipe(gulp.dest(targetPath))
     .pipe(
       $.if(
-        !!assetRevisioning && !!config.assetRevisioning,
+        !!assetRevisioning && (config.assetRevisioning ?? true),
         $.rev.manifest({
           base: targetPath,
           merge: true,
@@ -157,7 +162,7 @@ export const bundleAssets = (
     )
     .pipe(
       $.if(
-        assetRevisioning && !!config.assetRevisioning,
+        assetRevisioning && (config.assetRevisioning ?? true),
         gulp.dest(targetPath),
       ),
     )
@@ -182,8 +187,18 @@ export const bundleLibs = (
       }),
     )
     .pipe($.removeSourcemaps())
-    .pipe($.if(config.production, $.stripComments()))
-    .pipe($.if(config.production, $.stripDebug()))
+    .pipe(
+      $.if(
+        config.production && (config.removeComments ?? true),
+        $.stripComments(),
+      ),
+    )
+    .pipe(
+      $.if(
+        config.production && (config.stripDebugging ?? true),
+        $.stripDebug(),
+      ),
+    )
     //.pipe($.removeUseStrict({ force: true }))
     .pipe(
       $.if(
@@ -193,8 +208,8 @@ export const bundleLibs = (
     )
     .pipe($.if(config.production, $.removeEmptyLines()))
     .pipe($.concat({ path: 'vendor.js' }))
-    .pipe($.if(config.production, $.uglify()))
-    .pipe($.if(!!config.assetRevisioning, $.rev()))
+    .pipe($.if(config.production && (config.minify ?? true), $.uglify()))
+    .pipe($.if(config.assetRevisioning ?? true, $.rev()))
     .pipe(
       $.if(
         config.production,
@@ -211,14 +226,14 @@ export const bundleLibs = (
     .pipe(gulp.dest(targetPath))
     .pipe(
       $.if(
-        !!config.assetRevisioning,
+        config.assetRevisioning ?? true,
         $.rev.manifest({
           base: targetPath,
           merge: true,
         }),
       ),
     )
-    .pipe($.if(!!config.assetRevisioning, gulp.dest(targetPath)))
+    .pipe($.if(config.assetRevisioning ?? true, gulp.dest(targetPath)))
 
 export const bundleAppScripts = (
   sourcePath: string | string[],
@@ -244,11 +259,21 @@ export const bundleAppScripts = (
     .pipe(source(`app.js`))
     .pipe(buffer())
     .pipe($.sourcemaps.init({ loadMaps: true }))
-    .pipe($.if(config.production, $.stripComments()))
-    .pipe($.if(config.production, $.stripDebug()))
+    .pipe(
+      $.if(
+        config.production && (config.removeComments ?? true),
+        $.stripComments(),
+      ),
+    )
+    .pipe(
+      $.if(
+        config.production && (config.stripDebugging ?? true),
+        $.stripDebug(),
+      ),
+    )
     //.pipe($.if(production, $.removeEmptyLines()))
-    .pipe($.if(config.production, $.uglify()))
-    .pipe($.if(!!config.assetRevisioning, $.rev()))
+    .pipe($.if(config.production && (config.minify ?? true), $.uglify()))
+    .pipe($.if(config.assetRevisioning ?? true, $.rev()))
     .pipe(
       $.sourcemaps.write('.', {
         sourceMappingURL: (file) =>
@@ -272,14 +297,14 @@ export const bundleAppScripts = (
     .pipe(gulp.dest(targetPath))
     .pipe(
       $.if(
-        !!config.assetRevisioning,
+        config.assetRevisioning ?? true,
         $.rev.manifest({
           base: targetPath,
           merge: true,
         }),
       ),
     )
-    .pipe($.if(!!config.assetRevisioning, gulp.dest(targetPath)))
+    .pipe($.if(config.assetRevisioning ?? true, gulp.dest(targetPath)))
 
 export const bundleStyles = (
   sourcePath: string | string[],
@@ -322,13 +347,15 @@ export const bundleStyles = (
                 require('postcss-discard-empty'),
               ]
             : []),
-          config.production && purge_content
+          config.production && (config.purgeCss ?? true) && purge_content
             ? require('postcss-purgecss')({
                 content: purge_content,
               })
             : null,
           require('autoprefixer'),
-          config.production ? require('postcss-minify') : null,
+          config.production && (config.minify ?? true)
+            ? require('postcss-minify')
+            : null,
         ].filter((notEmpty) => notEmpty),
       ),
     )
@@ -338,7 +365,7 @@ export const bundleStyles = (
       }),
     )
     .pipe($.concat((vendor ? 'vendor' : 'app') + '.css'))
-    .pipe($.if(!!config.assetRevisioning, $.rev()))
+    .pipe($.if(config.assetRevisioning ?? true, $.rev()))
     .pipe(
       $.if(
         !vendor,
@@ -365,11 +392,11 @@ export const bundleStyles = (
     .pipe(gulp.dest(targetPath))
     .pipe(
       $.if(
-        !!config.assetRevisioning,
+        config.assetRevisioning ?? true,
         $.rev.manifest({
           base: targetPath,
           merge: true,
         }),
       ),
     )
-    .pipe($.if(!!config.assetRevisioning, gulp.dest(targetPath)))
+    .pipe($.if(config.assetRevisioning ?? true, gulp.dest(targetPath)))

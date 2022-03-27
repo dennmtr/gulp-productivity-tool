@@ -49,7 +49,7 @@ const includeFromAssetFolder = [
     userOverride.excludeFromAssetFolder.includes(ext),
 )
 
-const assetRevisioningFilter = [
+const assetRevisioningFilter: string[] | undefined = [
   ...new Set([
     ...['json', 'gif', 'jpeg', 'jpg', 'png', 'webp'],
     ...(userOverride?.assetRevisioningFilter ?? []),
@@ -158,10 +158,9 @@ const config: IConfig = {
   server: {
     ...server,
   },
+  purgeCss: userOverride?.purgeCss ?? false,
   assetRevisioning: userOverride?.assetRevisioning ?? false,
-  assetRevisioningFilter: assetRevisioningFilter.length
-    ? assetRevisioningFilter.join('|')
-    : undefined,
+  assetRevisioningFilter: assetRevisioningFilter,
   production: production,
   tailwindConfig: !userOverride?.tailwindConfig
     ? undefined

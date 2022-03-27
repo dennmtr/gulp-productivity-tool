@@ -1,6 +1,6 @@
 # gulp-productivity-tool
 
-### A handy tool, bundling assets using Gulp and predifined templates
+### Bundling assets using Gulp and predifined templates
 
 > Almost not for begginers, you have to know Gulp workflow and how a static web site is structured in advance
 
@@ -21,9 +21,8 @@ npm install --no-optional
 - source maps
 - comment removal
 - strip debugging
-- beautify
-- transpile
-- modular & non modular support
+- transpiling
+- modularity
 - delete duplicate css
 - remove empty classes
 - purge css
@@ -95,7 +94,7 @@ cp resources/src/scss/app.example.scss resources/src/scss/app.scss
 }
 ```
 
-#### Create a script file
+#### Create a bootstrap script file
 
 ```console
 cp resources/src/app.example.js resources/src/app.js
@@ -107,7 +106,7 @@ cp resources/src/app.example.js resources/src/app.js
 cp .env-cmdrc.example .env-cmdrc
 ```
 
-_If you will use asset revisioning (recommended) import app/rev.php to your php script (example, views/index.example.php), or integrate it as a helper function to your framework (then you will need to modify the manifest path inside function). Import vendor.css, app.css, vendor.js, app.js to header and footer view partials wrapping them in rev function_
+_If you will use asset revisioning, import app/rev.php to your php script (example, views/index.example.php), or integrate it as a helper function to your framework (then you will need to modify the manifest path inside function). Import vendor.css, app.css, vendor.js, app.js to header and footer view partials, wrapping them in rev function_
 
 #### Watch
 

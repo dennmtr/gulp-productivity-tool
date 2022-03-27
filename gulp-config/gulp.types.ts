@@ -81,6 +81,49 @@ export interface ISource {
 
 export type Template = Record<string, ISource>
 
+interface IOptions {
+  /**
+   *
+   */
+  assetRevisioning?: boolean
+  /**
+   * @example <caption>Default:</caption>
+   *
+   * assetRevisioningFilter['json', 'gif', 'jpeg', 'jpg', 'png', 'webp']
+   *
+   */
+  assetRevisioningFilter?: string[]
+  /**
+   * Tailwind config overrides
+   *
+   *
+   * Pass false to disable tailwind...
+   *
+   **  [Documentation](https://tailwindcss.com/docs/configuration)
+   **  [Icons](https://heroicons.com/)
+   */
+  tailwindConfig?: any | false
+  /**
+   *PurgeCSS is a tool to remove unused CSS. It can be part of your development workflow.
+   *When you are building a website, you might decide to use a CSS framework like TailwindCSS, Bootstrap, MaterializeCSS, Foundation, etc... But you will *only use a small set of the framework, and a lot of unused CSS styles will be included.
+   *
+   *This is where PurgeCSS comes into play. PurgeCSS analyzes your content and your CSS files. Then it matches the selectors used in your files with the one *in your content files. It removes unused selectors from your CSS, resulting in smaller CSS files.
+   */
+  purgeCss?: boolean
+  /**
+   * Minify JavaScript with UglifyJS3.
+   */
+  minify?: boolean
+  /**
+   * Removes comments from JSON/JavaScript, CSS/HTML, CPP/H, etc.
+   */
+  removeComments?: boolean
+  /**
+   * Strip console, alert, and debugger statements from JavaScript code with strip-debug.
+   */
+  stripDebugging?: boolean
+}
+
 /**
  *  Override default Gulp configuration
  *
@@ -88,8 +131,9 @@ export type Template = Record<string, ISource>
 export type UserOverride = (
   paths: Partial<IPath>,
   templates: Template,
-) => {
-  /**
+) => ISource &
+  IOptions & {
+    /**
     * Available options:
     *
     *
@@ -144,8 +188,8 @@ export type UserOverride = (
     * templates[bootstrapV5, fontAwesomeV5]
     *
     */
-  templates?: ISource[]
-  /**
+    templates?: ISource[]
+    /**
    * @example <caption>Default:</caption>
    *
    * includeFromAssetFolder[
@@ -164,8 +208,8 @@ export type UserOverride = (
     ]
    *
    */
-  includeFromAssetFolder?: string[]
-  /**
+    includeFromAssetFolder?: string[]
+    /**
    * @example <caption>Usage:</caption>
    *
    * excludeFromAssetFolder[
@@ -174,44 +218,20 @@ export type UserOverride = (
     ]
    *
    */
-  excludeFromAssetFolder?: string[]
-  /**
-   *
-   */
-  assetRevisioning?: boolean
-  /**
-   * @example <caption>Default:</caption>
-   *
-   * assetRevisioningFilter['json', 'gif', 'jpeg', 'jpg', 'png', 'webp']
-   *
-   */
-  assetRevisioningFilter?: string[]
-  /**
-   *  - [Documentation](https://babeljs.io/docs/en/options#plugin-and-preset-options)
-   */
-  babelSettings?: any
-  /**
-   * Tailwind config overrides
-   *
-   *
-   * Pass false to disable tailwind...
-   *
-   **  [Documentation](https://tailwindcss.com/docs/configuration)
-   **  [Icons](https://heroicons.com/)
-   */
-  tailwindConfig?: any | false
-} & ISource
+    excludeFromAssetFolder?: string[]
+    /**
+     *  - [Documentation](https://babeljs.io/docs/en/options#plugin-and-preset-options)
+     */
+    babelSettings?: any
+  }
 
 export type Profile = (paths: IPath) => ISource
 
-export interface IConfig {
+export interface IConfig extends IOptions {
   paths: IPath
   sources: ISource
   server: browserSync.Options
-  assetRevisioning?: boolean
-  assetRevisioningFilter?: string
   production: boolean
-  tailwindConfig?: any | false
 }
 
 type UnknownGulpPlugin = (options?: unknown) => NodeJS.ReadWriteStream

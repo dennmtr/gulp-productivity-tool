@@ -31,20 +31,23 @@ const watchSeries = (cb?: any) => {
     gulpSeries(t.bundleAppScripts($), t.cleanFolderContent($), reload),
   )
   gulpWatch(
-    [
-      $.paths.resources + '/src/**/*.+(css|scss)',
-      $.paths.resources + '/.profiles/**/+(_config.scss|_variables.scss)',
-    ],
+    [$.paths.resources + '/src/**/*.+(css|scss)'],
     { cwd: $.paths.root },
     gulpSeries(t.bundleAppStyles($), t.cleanFolderContent($), reload),
   )
   gulpWatch(
-    [
-      $.paths.resources + '/libs/**/*.+(css|scss)',
-      $.paths.resources + '/.profiles/**/*.+(css|scss)',
-    ],
+    [$.paths.resources + '/libs/**/*.+(css|scss)'],
     { cwd: $.paths.root },
     gulpSeries(t.bundleVendorStyles($), t.cleanFolderContent($), reload),
+  )
+  gulpWatch(
+    [$.paths.resources + '/.profiles/**/*.+(css|scss)'],
+    { cwd: $.paths.root },
+    gulpSeries(
+      gulpParallel(t.bundleVendorStyles($), t.bundleAppStyles($)),
+      t.cleanFolderContent($),
+      reload,
+    ),
   )
   gulpWatch(
     $.paths.resources + '/libs/**/*.js',

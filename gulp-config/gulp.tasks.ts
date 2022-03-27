@@ -92,7 +92,9 @@ export const cleanFolderContent = ($: IConfig): any =>
       return f.cleanCache(
         $.paths.build,
         `**/*.+(js|css|map${
-          $.assetRevisioningFilter ? `|${$.assetRevisioningFilter}` : ''
+          $.assetRevisioningFilter?.length
+            ? `|${$.assetRevisioningFilter.join('|')}`
+            : ''
         })`,
         $.paths.resources,
       )

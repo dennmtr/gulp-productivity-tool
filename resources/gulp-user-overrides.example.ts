@@ -41,6 +41,10 @@ const override: UserOverride = (
   assetRevisioningFilter: [],
   babelSettings: {},
   tailwindConfig: {},
+  purgeCss: false,
+  minify: true,
+  removeComments: true,
+  stripDebugging: true,
 })
 
 export default override
