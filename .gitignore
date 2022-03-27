@@ -6,9 +6,9 @@ rev-manifest.json
 /resources/assets/*
 !resources/assets/.gitkeep
 !resources/views/index.example.php
-/resources/.profiles/bootstrap-3/_bootstrap3.scss
-/resources/.profiles/bootstrap-4/_bootstrap4.scss
-/resources/.profiles/bootstrap-5/_bootstrap5.scss
+/resources/.profiles/bootstrap-3/_variables.bs3.scss
+/resources/.profiles/bootstrap-4/_variables.bs4.scss
+/resources/.profiles/bootstrap/_variables.scss
 /resources/.profiles/materialize/_materialize_colors.scss
 /resources/.profiles/materialize/_materialize_variables.scss
 /resources/.profiles/mdb3/_mdb3.scss

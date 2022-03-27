@@ -8,7 +8,7 @@ import browserify from 'browserify'
 import source from 'vinyl-source-stream'
 import tsify from 'tsify'
 import buffer from 'vinyl-buffer'
-import nodeSass from 'node-sass'
+import dartSass from 'sass'
 import { IConfig, IGulpPlugins, GlobPath } from './gulp.types'
 import tailwindcss from 'tailwindcss'
 
@@ -16,7 +16,7 @@ const $: IGulpPlugins = require('gulp-load-plugins')({
   //@ts-ignore
   postRequireTransforms: {
     sass: (sass: any) => {
-      return sass(nodeSass)
+      return sass(dartSass)
     },
   },
 })

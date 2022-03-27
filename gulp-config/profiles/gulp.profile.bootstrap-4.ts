@@ -5,7 +5,7 @@ const profile: Profile = (paths) => ({
     styles: [paths.resources + '/.profiles/bootstrap-4/bootstrap.scss'],
     js: [
       paths.node + '/jquery/dist/jquery.min.js',
-      paths.node + '/bootstrap4/dist/js/bootstrap.bundle.min.js',
+      paths.node + '/bootstrap/dist/js/bootstrap.bundle.min.js',
     ],
   },
 })
