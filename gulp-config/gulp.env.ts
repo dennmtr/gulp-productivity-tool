@@ -1,14 +1,14 @@
 import * as path from 'path'
 import normalize from 'normalize-path'
+import fs from 'fs'
 import getProfiles from './gulp.profiles'
 import { IConfig, UserOverride } from './gulp.types'
-import fs from 'fs'
 
 const root = normalize(path.resolve('.'))
 const production = process.env.NODE_ENV === 'production'
 
 export const paths = {
-  root: root,
+  root,
   project: production ? 'dist' : 'public',
   resources: 'resources',
   build: `${production ? 'dist' : 'public'}/assets`,
@@ -17,10 +17,10 @@ export const paths = {
 
 let userOverride: ReturnType<UserOverride> | undefined
 
-if (fs.existsSync(paths.resources + '/gulp-user-overrides.ts')) {
+if (fs.existsSync(`${paths.resources}/gulp-user-overrides.ts`)) {
   const override = require('../resources/gulp-user-overrides')
   userOverride = override.default(
-    { node: paths.node + '/', libs: paths.resources + '/libs/' },
+    { node: `${paths.node}/`, libs: `${paths.resources}/libs/` },
     getProfiles(paths),
   )
 }
@@ -61,16 +61,21 @@ const babelSettings = {
     [
       '@babel/plugin-proposal-class-properties',
       {
-        //loose: true,
+        // loose: true,
       },
     ],
   ],
 }
 
 const server = {
-  proxy: process.env.APP_BROWSERSYNC_PROXY
-    ? process.env.APP_BROWSERSYNC_PROXY
-    : 'http://localhost',
+  server:
+    process.env.APP_BROWSERSYNC_SERVER && !process.env.APP_BROWSERSYNC_PROXY
+      ? process.env.APP_BROWSERSYNC_SERVER
+      : './public',
+  proxy:
+    process.env.APP_BROWSERSYNC_PROXY && !process.env.APP_BROWSERSYNC_SERVER
+      ? process.env.APP_BROWSERSYNC_PROXY
+      : undefined,
   host: process.env.APP_BROWSERSYNC_HOST
     ? process.env.APP_BROWSERSYNC_HOST
     : 'localhost',
@@ -99,22 +104,23 @@ const config: IConfig = {
     ...paths,
   },
   sources: {
-    html: [paths.resources + '/public/**/*'],
+    html: [`${paths.resources}/public/**/*`],
     views: [
-      paths.resources + '/public/**/*.php',
-      paths.resources + '/views/**/*.php',
+      `${paths.resources}/public/**/*.php`,
+      `${paths.resources}/views/**/*.php`,
     ],
     assets: includeFromAssetFolder.length
       ? [
-          paths.resources +
-            `/assets/**/*.+(${includeFromAssetFolder.join('|')})`,
+          `${paths.resources}/assets/**/*.+(${includeFromAssetFolder.join(
+            '|',
+          )})`,
         ]
       : undefined,
     nodeAssets: [
       ...(userOverride?.templates?.flatMap(
         (template) => template.nodeAssets || [],
       ) ?? []),
-      ...(userOverride?.nodeAssets?.map((file) => paths.node + '/' + file) ??
+      ...(userOverride?.nodeAssets?.map((file) => `${paths.node}/${file}`) ??
         []),
       ...(!userOverride?.nodeAssets?.length ? [] : []),
     ],
@@ -124,13 +130,13 @@ const config: IConfig = {
           (template) => template.app?.styles ?? [],
         ) ?? []),
         ...(userOverride?.app?.styles?.map(
-          (file) => paths.resources + '/src/scss/' + file,
-        ) ?? [paths.resources + '/src/scss' + 'app.scss']),
+          (file) => `${paths.resources}/src/scss/${file}`,
+        ) ?? [`${paths.resources}/src/scss/app.scss`]),
       ],
       scripts: [
         ...(userOverride?.app?.scripts?.map(
-          (file) => paths.resources + '/src/' + file,
-        ) ?? [paths.resources + '/src/' + 'app.js']),
+          (file) => `${paths.resources}/src/${file}`,
+        ) ?? [`${paths.resources}/src/app.js`]),
       ],
       babelSettings: { ...babelSettings, ...userOverride?.babelSettings },
     },
@@ -141,7 +147,7 @@ const config: IConfig = {
         ) ?? []),
         ...(userOverride?.vendor?.styles?.map((file) => file) ?? []),
         ...(!userOverride?.vendor?.styles?.length
-          ? [paths.resources + '/libs/**/*.+(css|scss)']
+          ? [`${paths.resources}/libs/**/*.+(css|scss)`]
           : []),
       ],
       scripts: [
@@ -150,7 +156,7 @@ const config: IConfig = {
         ) ?? []),
         ...(userOverride?.vendor?.scripts?.map((file) => file) ?? []),
         ...(!userOverride?.vendor?.scripts?.length
-          ? [paths.resources + '/libs/**/*.js']
+          ? [`${paths.resources}/libs/**/*.js`]
           : []),
       ],
     },
@@ -160,18 +166,18 @@ const config: IConfig = {
   },
   purgeCss: userOverride?.purgeCss ?? false,
   assetRevisioning: userOverride?.assetRevisioning ?? false,
-  assetRevisioningFilter: assetRevisioningFilter,
-  production: production,
+  assetRevisioningFilter,
+  production,
   tailwindConfig: !userOverride?.tailwindConfig
     ? undefined
     : {
         mode: 'jit',
         content: [
-          paths.resources + '/public/**/*.php',
-          paths.resources + '/views/**/*.php',
+          `${paths.resources}/public/**/*.php`,
+          `${paths.resources}/views/**/*.php`,
           ...(userOverride?.app?.scripts?.map(
-            (file) => paths.resources + '/src/' + file,
-          ) ?? [paths.resources + '/src/' + 'app.js']),
+            (file) => `${paths.resources}/src/${file}`,
+          ) ?? [`${paths.resources}/src/app.js`]),
         ],
         darkMode: 'class',
         theme: {
@@ -181,7 +187,7 @@ const config: IConfig = {
           extend: {},
         },
         plugins: [],
-        ...userOverride?.tailwindConfig,
+        ...(userOverride?.tailwindConfig as any),
       },
 }
 

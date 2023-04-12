@@ -1,19 +1,91 @@
 {
+  "env": {
+    "browser": false,
+    "es2022": true,
+    "node": true
+  },
   "extends": [
-    // "plugin:jquery/deprecated",
-    "plugin:@typescript-eslint/eslint-recommended"
-  ],
-  "plugins": [
-    // "jquery",
-    "@typescript-eslint"
+    "airbnb",
+    "airbnb-typescript",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:prettier/recommended",
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module",
     "ecmaFeatures": {
       "arrowFunctions": true
-    }
+    },
+    "ecmaVersion": "latest",
+    "parser": "typescript-eslint-parser",
+    "project": "tsconfig.json"
+  },
+  "plugins": ["@typescript-eslint", "prettier", "unused-imports"],
+  "rules": {
+    "@typescript-eslint/no-misused-promises": "warn",
+    "@typescript-eslint/no-shadow": "off",
+    "@typescript-eslint/no-unsafe-argument": "warn",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "consistent-return": "off",
+    "global-require": "off",
+    "import/default": "error",
+    "import/export": "error",
+    "import/extensions": "off",
+    "import/named": "error",
+    "import/namespace": "error",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "packageDir": "./"
+      }
+    ],
+    "import/no-import-module-exports": "off",
+    "import/no-unresolved": "warn",
+    "max-len": [
+      "error",
+      {
+        "code": 100,
+        "ignoreComments": true,
+        "ignorePattern": "^import",
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreUrls": true,
+        "tabWidth": 2
+      }
+    ],
+    "no-multi-assign": "off",
+    "no-nested-ternary": "off",
+    "no-unused-vars": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
+      }
+    ],
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "args": "after-used",
+        "argsIgnorePattern": "^_",
+        "vars": "all",
+        "varsIgnorePattern": "^_"
+      }
+    ]
   },
   "settings": {
     "import/extensions": [".js", ".ts"],
@@ -22,23 +94,12 @@
     },
     "import/resolver": {
       "node": {
-        "paths": ["resources/src"],
-        "extensions": [".js", ".ts"]
+        "extensions": [".js", ".ts"],
+        "paths": ["."]
+      },
+      "typescript": {
+        "project": ["tsconfig.json"]
       }
     }
-  },
-  "env": {
-    "browser": true,
-    "es6": true
-  },
-  "rules": {
-    "no-mixed-operators": "error",
-    "max-len": "off",
-    "no-tabs": "error",
-    "no-use-before-define": "warn",
-    "no-mixed-spaces-and-tabs": "error",
-    "@typescript-eslint/no-use-before-define": "warn",
-    "@typescript-eslint/no-empty-function": "warn"
-    // "jquery/no-deferred": "off"
   }
 }

@@ -1,8 +1,8 @@
 import del from 'del'
+import fs from 'fs'
 import * as t from './gulp.helpers'
 import * as f from './gulp.factory'
 import { IConfig } from './gulp.types'
-import fs from 'fs'
 
 const purgeCssFrom = ($: IConfig) => [
   ...($.sources.views ?? []),
@@ -10,7 +10,7 @@ const purgeCssFrom = ($: IConfig) => [
   ...($.sources.vendor?.scripts ?? []),
 ]
 
-export const bundleAppScripts = ($: IConfig): any =>
+export const bundleAppScripts = ($: IConfig) =>
   function bundleAppScripts() {
     return $.sources.app?.scripts?.some((file) => fs.existsSync(file))
       ? t.createScriptTask(
@@ -22,7 +22,7 @@ export const bundleAppScripts = ($: IConfig): any =>
       : Promise.resolve()
   }
 
-export const bundleAppStyles = ($: IConfig): any =>
+export const bundleAppStyles = ($: IConfig) =>
   function bundleAppStyles() {
     return t.createStyleTask(
       $.sources.app?.styles ?? [],
@@ -33,7 +33,7 @@ export const bundleAppStyles = ($: IConfig): any =>
     )
   }
 
-export const bundleVendorStyles = ($: IConfig): any =>
+export const bundleVendorStyles = ($: IConfig) =>
   function bundleVendorStyles() {
     return t.createStyleTask(
       $.sources.vendor?.styles ?? [],
@@ -44,7 +44,7 @@ export const bundleVendorStyles = ($: IConfig): any =>
     )
   }
 
-export const bundleVendorScripts = ($: IConfig): any =>
+export const bundleVendorScripts = ($: IConfig) =>
   function bundleVendorScripts() {
     return t.createScriptTask(
       $.sources.vendor?.scripts ?? [],
@@ -54,12 +54,12 @@ export const bundleVendorScripts = ($: IConfig): any =>
     )
   }
 
-export const copyAssetFiles = ($: IConfig): any =>
+export const copyAssetFiles = ($: IConfig) =>
   function copyAssetFiles() {
     return $.sources.assets
       ? t.createCopyTask(
           $.sources.assets,
-          $.paths.resources + '/assets',
+          `${$.paths.resources}/assets`,
           $.paths.build,
           $,
           $.assetRevisioning,
@@ -74,19 +74,19 @@ export const copyAssetsFromNode = ($: IConfig) =>
       : Promise.resolve()
   }
 
-export const copyFiles = ($: IConfig): any =>
+export const copyFiles = ($: IConfig) =>
   function copyFiles() {
     return $.sources.html
       ? t.createCopyTask($.sources.html, null, $.paths.project, $, false)
       : Promise.resolve()
   }
 
-export const deleteManifest = ($: IConfig, force = false): any =>
+export const deleteManifest = ($: IConfig, force = false) =>
   function deleteManifest() {
     return f.deleteManifest($, force)
   }
 
-export const cleanFolderContent = ($: IConfig): any =>
+export const cleanFolderContent = ($: IConfig) =>
   function cleanFolderContent() {
     if ($.assetRevisioning && !$.production) {
       return f.cleanCache(

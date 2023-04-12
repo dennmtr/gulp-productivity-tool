@@ -13,6 +13,7 @@ import concat from 'gulp-concat'
 import sourcemaps from 'gulp-sourcemaps'
 import sass from 'gulp-sass'
 import GulpPostCss from 'gulp-postcss'
+import { Config } from 'tailwindcss'
 
 export interface IPath {
   root: string
@@ -102,7 +103,7 @@ interface IOptions {
    **  [Documentation](https://tailwindcss.com/docs/configuration)
    **  [Icons](https://heroicons.com/)
    */
-  tailwindConfig?: any | false
+  tailwindConfig?: Config
   /**
    *PurgeCSS is a tool to remove unused CSS. It can be part of your development workflow.
    *When you are building a website, you might decide to use a CSS framework like TailwindCSS, Bootstrap, MaterializeCSS, Foundation, etc... But you will *only use a small set of the framework, and a lot of unused CSS styles will be included.

@@ -40,7 +40,7 @@ const override: UserOverride = (
   assetRevisioning: false,
   assetRevisioningFilter: [],
   babelSettings: {},
-  tailwindConfig: {},
+  tailwindConfig: undefined,
   purgeCss: false,
   minify: true,
   removeComments: true,

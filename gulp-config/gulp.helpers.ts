@@ -1,6 +1,6 @@
+import glob from 'glob'
 import { IConfig } from './gulp.types'
 import * as f from './gulp.factory'
-import glob from 'glob'
 
 const withArray = (sourcePath: string[] | string) =>
   Array.isArray(sourcePath) && sourcePath.length === 1
@@ -39,8 +39,8 @@ export const createStyleTask = (
         withArray(sourcePath),
         targetPath,
         vendor,
-        purgeCssFrom,
         config,
+        purgeCssFrom,
       )
     : Promise.resolve()
 

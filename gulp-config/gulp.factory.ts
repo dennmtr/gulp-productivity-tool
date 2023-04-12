@@ -9,19 +9,21 @@ import source from 'vinyl-source-stream'
 import tsify from 'tsify'
 import buffer from 'vinyl-buffer'
 import dartSass from 'sass'
-import { IConfig, IGulpPlugins, GlobPath } from './gulp.types'
 import tailwindcss from 'tailwindcss'
+import { ParsedPath } from 'gulp-rename'
+import { GlobPath, IConfig, IGulpPlugins } from './gulp.types'
 
 const $: IGulpPlugins = require('gulp-load-plugins')({
-  //@ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   postRequireTransforms: {
-    sass: (sass: any) => {
+    sass: (sass: (resolver: unknown) => unknown) => {
       return sass(dartSass)
     },
   },
 })
 
-export const clearCache = (cb?: any) => {
+export const clearCache = (cb?: () => unknown) => {
   return $.cache.clearAll(cb)
 }
 
@@ -33,7 +35,7 @@ export const deleteManifest = ($: IConfig, force = false) => {
 }
 
 export const mv = async (source: GlobPath, target: string) =>
-  await new Promise((resolve, reject) => {
+  new Promise((resolve) => {
     gulp
       .src(source, { allowEmpty: true, base: '.', dot: true })
       .pipe(gulp.dest(target))
@@ -61,7 +63,7 @@ export const cleanCache = (
   const orphanFiles = Object.entries(manifestJson)
     .map(([key, val]) =>
       !['vendor', 'app'].some((baseName) => key.split('.')[0] === baseName) &&
-      !fs.existsSync(path.resolve(resourcesPath + '/assets/' + key))
+      !fs.existsSync(path.resolve(`${resourcesPath}/assets/${key}`))
         ? val
         : null,
     )
@@ -77,7 +79,7 @@ export const cleanCache = (
           name.includes(path.dirname(file)),
         )
           ? ''
-          : path.dirname(file) + '/'
+          : `${path.dirname(file)}/`
         return !validFiles.includes(dirName + path.basename(file, '.map'))
       }
       return !validFiles.includes(file)
@@ -199,10 +201,10 @@ export const bundleLibs = (
         $.stripDebug(),
       ),
     )
-    //.pipe($.removeUseStrict({ force: true }))
+    // .pipe($.removeUseStrict({ force: true }))
     .pipe(
       $.if(
-        config.production && config.sources.vendor?.babelSettings,
+        config.production && !!config.sources.vendor?.babelSettings,
         $.babel(config.sources.vendor?.babelSettings),
       ),
     )
@@ -213,13 +215,13 @@ export const bundleLibs = (
     .pipe(
       $.if(
         config.production,
-        $.rename((path: any) => ({
+        $.rename((path: ParsedPath) => ({
           dirname: path.dirname,
           basename: path.basename.split('.js')[0],
           extname:
             path.extname !== '.js'
-              ? '.min.js' + path.extname
-              : '.min' + path.extname,
+              ? `.min.js${path.extname}`
+              : `.min${path.extname}`,
         })),
       ),
     )
@@ -271,14 +273,15 @@ export const bundleAppScripts = (
         $.stripDebug(),
       ),
     )
-    //.pipe($.if(production, $.removeEmptyLines()))
+    // .pipe($.if(production, $.removeEmptyLines()))
     .pipe($.if(config.production && (config.minify ?? true), $.uglify()))
     .pipe($.if(config.assetRevisioning ?? true, $.rev()))
     .pipe(
       $.sourcemaps.write('.', {
         sourceMappingURL: (file) =>
-          file.basename.split('.js')[0] +
-          `${config.production ? '.min' : ''}.js.map`,
+          `${file.basename.split('.js')[0]}${
+            config.production ? '.min' : ''
+          }.js.map`,
       }),
     )
     .pipe(
@@ -289,8 +292,8 @@ export const bundleAppScripts = (
           basename: path.basename.split('.js')[0],
           extname:
             path.extname !== '.js'
-              ? '.min.js' + path.extname
-              : '.min' + path.extname,
+              ? `.min.js${path.extname}`
+              : `.min${path.extname}`,
         })),
       ),
     )
@@ -310,8 +313,8 @@ export const bundleStyles = (
   sourcePath: string | string[],
   targetPath: string,
   vendor: boolean,
-  purge_content: string[] = [],
   config: IConfig,
+  purge_content: string[] = [],
 ) =>
   gulp
     .src(sourcePath, { allowEmpty: true, base: '.', dot: true })
@@ -330,7 +333,8 @@ export const bundleStyles = (
           `${config.paths.resources}/.profiles`,
           `${config.paths.resources}/src/scss`,
         ],
-        //@ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
       }).on('error', $.sass.logError),
     )
     .pipe(
@@ -364,15 +368,16 @@ export const bundleStyles = (
         dirname: '.',
       }),
     )
-    .pipe($.concat((vendor ? 'vendor' : 'app') + '.css'))
+    .pipe($.concat(`${vendor ? 'vendor' : 'app'}.css`))
     .pipe($.if(config.assetRevisioning ?? true, $.rev()))
     .pipe(
       $.if(
         !vendor,
         $.sourcemaps.write('.', {
           sourceMappingURL: (file) =>
-            file.basename.split('.css')[0] +
-            `${config.production ? '.min' : ''}.css.map`,
+            `${file.basename.split('.css')[0]}${
+              config.production ? '.min' : ''
+            }.css.map`,
         }),
       ),
     )
@@ -384,8 +389,8 @@ export const bundleStyles = (
           basename: path.basename.split('.css')[0],
           extname:
             path.extname !== '.css'
-              ? '.min.css' + path.extname
-              : '.min' + path.extname,
+              ? `.min.css${path.extname}`
+              : `.min${path.extname}`,
         })),
       ),
     )
